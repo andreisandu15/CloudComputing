@@ -1,0 +1,60 @@
+<html>
+    <head>
+        
+    </head>
+    <body>
+        <label>Alegeti un cocktail:</label>
+        <input type="text" id="text1"/>
+        <!-- <input type="text" id="text2"/> -->
+        <button id="buton">Click Me!</button>
+
+        <label for="jokes">Choose a joke type:</label>
+        <select name="jokes" id="jokes">
+            <option value="Any">Any</option>
+            <option value="Programming">Programming</option>
+            <option value="Misc">Misc</option>
+            <option value="Pun">Pun</option>
+          </select>
+          <button id="buton2">Tell me a joke!</button>
+
+          <div><p id="cocktail"></p></div>
+          <div><p id="joke"></p>
+          <p id="delivery"></p></div>
+    </body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script> 
+          
+         $("#buton").click(function(){
+            var data = {}
+            var text1 = $('#text1').val()
+            //var text2 = $('#text2').val()
+            console.log(text1)
+            //"https://api.coinbase.com/v2/prices/" + text1 + "-" + text2 +"/spot"
+            $.getJSON("https://thecocktaildb.com/api/json/v1/1/search.php?s=" + text1, function(data){
+                console.log(data)
+                $('#cocktail').html(data.drinks[0].strInstructions)
+                })
+            })
+            
+            $("#buton2").click(function(){
+                var joke = $('#jokes').find(":selected").text();
+                console.log(joke)
+                $.getJSON("https://v2.jokeapi.dev/joke/" + joke, function(data){
+                console.log(data)
+                $('#delivery').hide()
+                if(data.type == "twopart")
+                {
+                    $('#delivery').show()
+                    $('#joke').html(data.setup)
+                    $('#delivery').html(data.delivery)
+                }
+                else
+                {
+                    $('#joke').html(data.joke)
+                }
+                })
+            })
+            
+    </script>
+</html>
